@@ -1,0 +1,16 @@
+databaseChangeLog:
+  - include:
+      file: db.changelog-1.0.0-product.yaml
+      relativeToChangelogFile: true
+  - include:
+      file: db.changelog-1.0.1-branch.yaml
+      relativeToChangelogFile: true
+  - include:
+      file: db.changelog-1.0.2-franchise.yaml
+      relativeToChangelogFile: true
+  - include:
+      file: db.changelog-1.0.3-branch-fk.yaml
+      relativeToChangelogFile: true
+  - include:
+      file: db.changelog-1.0.4-product-branch.yaml
+      relativeToChangelogFile: true

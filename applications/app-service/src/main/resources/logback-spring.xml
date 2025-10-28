@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <!--
+      Logback configuration with MDC support for correlation id (cid).
+      The pattern includes:
+       - traceId/spanId placeholders (remain empty unless Micrometer Tracing is enabled)
+       - cid from MDC (populated by ReactorMdcConfig + MdcContextLifter)
+    -->
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level traceId=%X{traceId} spanId=%X{spanId} cid=%X{cid} [%thread] %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <root level="INFO">
+        <appender-ref ref="STDOUT" />
+    </root>
+</configuration>
