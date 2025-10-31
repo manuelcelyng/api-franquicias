@@ -24,7 +24,4 @@ public class BranchReactiveRepositoryAdapter extends ReactiveAdapterOperations<
                 .map(this::toEntity);
     }
 
-
-
-
 }

@@ -10,4 +10,6 @@ public interface ProductReactiveRepository extends ReactiveCrudRepository<Produc
     Mono<ProductData> findByBranchIdAndId(Long branchId, Long productId);
 
     Mono<Void> deleteByBranchIdAndId(Long branchId, Long productId);
+
+
 }

@@ -16,14 +16,15 @@ public class FranchiseUseCase {
 
     public Mono<Franchise> createFranchise(Franchise franchise) {
         return franchiseRepository.findByName(franchise.getName())
-                .hasElement()
-                .flatMap(exists -> exists
-                        ? Mono.error(new FranchiseAlreadyExists(
-                                TypeErrors.FRANCHISE_ALREADY_EXISTS.getCode(),
-                                TypeErrors.FRANCHISE_ALREADY_EXISTS.getMessage()))
-                        : franchiseRepository.save(franchise));
+                .switchIfEmpty(franchiseRepository.save(franchise))
+                .flatMap(exists ->
+                        Mono.error(new FranchiseAlreadyExists(
+                                        TypeErrors.FRANCHISE_ALREADY_EXISTS.getCode(),
+                                        TypeErrors.FRANCHISE_ALREADY_EXISTS.getMessage())
+                         ));
     }
 
+    // Cambiar al use case de branch
     public Mono<Branch> addBranch(Long franchiseId, Branch branch) {
         String name = branch.getName();
         return branchRepository.findByFranchiseIdAndName(franchiseId, name)
@@ -40,7 +41,7 @@ public class FranchiseUseCase {
                 );
     }
 
-
+    // dejar validacion del campo name soolo desde el entrypoint
     public Mono<Franchise> updateFranchise(Franchise franchiseUpdate ) {
 
         return franchiseRepository.findById(franchiseUpdate.getId())

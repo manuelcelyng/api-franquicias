@@ -13,6 +13,7 @@ import co.com.nequi.reto.usecase.franchise.FranchiseUseCase;
 import co.com.nequi.reto.usecase.product.ProductUseCase;
 import jakarta.validation.ConstraintViolationException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
@@ -27,11 +28,10 @@ import java.util.Optional;
 
 @Component
 @RequiredArgsConstructor
-@lombok.extern.slf4j.Slf4j
+@Slf4j
 public class Handler {
 
     private final Validator validator;
-
     private final FranchiseDtoMapper franchiseDtoMapper;
     private final BranchDtoMapper branchDtoMapper;
     private final ProductDtoMapper productDtoMapper;
@@ -74,7 +74,7 @@ public class Handler {
 
 
     public Mono<ServerResponse> listenUpdateFranchise(ServerRequest serverRequest) {
-            log.info("Handling {} {}", serverRequest.methodName(), serverRequest.path());
+        log.info("Handling {} {}", serverRequest.methodName(), serverRequest.path());
 
         Long franchiseId;
         try {
@@ -90,8 +90,6 @@ public class Handler {
                 .flatMap(franchiseRequest -> franchiseUseCase.updateFranchise(franchiseRequest.toBuilder().id(franchiseId).build()))
                 .map(franchiseDtoMapper::toResponse)
                 .flatMap(response -> ServerResponse.ok().bodyValue(response));
-
-
     }
 
 
@@ -116,7 +114,7 @@ public class Handler {
 
 
     public Mono<ServerResponse> listenDeleteProductFromBranch(ServerRequest serverRequest) {
-            log.info("Handling {} {}", serverRequest.methodName(), serverRequest.path());
+        log.info("Handling {} {}", serverRequest.methodName(), serverRequest.path());
         Long branchId;
         Long productId;
         try {
@@ -133,7 +131,7 @@ public class Handler {
 
 
     public Mono<ServerResponse> listenUpdateBranch(ServerRequest serverRequest) {
-            log.info("Handling {} {}", serverRequest.methodName(), serverRequest.path());
+        log.info("Handling {} {}", serverRequest.methodName(), serverRequest.path());
         Long branchId;
         Long franchiseId;
         try {
@@ -159,7 +157,7 @@ public class Handler {
     // PRODUCT ENDPOINTS
 
     public Mono<ServerResponse> listenUpdateProduct(ServerRequest serverRequest) {
-            log.info("Handling {} {}", serverRequest.methodName(), serverRequest.path());
+        log.info("Handling {} {}", serverRequest.methodName(), serverRequest.path());
         Long branchId;
         Long productId;
         try {
@@ -180,7 +178,7 @@ public class Handler {
 
 
     public Mono<ServerResponse> listenGetTopProductsFromBranchByFranchiseId(ServerRequest serverRequest) {
-            log.info("Handling {} {}", serverRequest.methodName(), serverRequest.path());
+        log.info("Handling {} {}", serverRequest.methodName(), serverRequest.path());
         Optional<String> franchiseIdOpt = serverRequest.queryParam("franchiseId");
         if (franchiseIdOpt.isEmpty()) {
             return Mono.error(new IllegalArgumentException("Query param 'franchiseId' is required"));
@@ -195,15 +193,10 @@ public class Handler {
 
     }
 
-
-
     public Mono<ServerResponse> livenessCheck(ServerRequest serverRequest) {
-            log.info("Handling {} {}", serverRequest.methodName(), serverRequest.path());
-
-
+        log.info("Handling {} {}", serverRequest.methodName(), serverRequest.path());
         return ServerResponse.ok().bodyValue("I'm alive!");
     }
-
 
     // VALIDATE JAKARTA FUNCTIÓN -> Valid data and throws an exception if notValid
     private <T>  Mono<T> validateJakarta(T req) {

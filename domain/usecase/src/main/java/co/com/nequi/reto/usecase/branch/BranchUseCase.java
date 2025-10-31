@@ -20,6 +20,7 @@ public class BranchUseCase {
     public Mono<Product> addProduct(Long branchId, Product product) {
         Long productId = product.getId();
         // refactorizar, separando en dos monos e implementar las busquedas en paralelo
+        // refactorizar cómo se indico el de franchise
         return branchRepository.findById(branchId)
                 .hasElement()
                 .flatMap(exists -> exists

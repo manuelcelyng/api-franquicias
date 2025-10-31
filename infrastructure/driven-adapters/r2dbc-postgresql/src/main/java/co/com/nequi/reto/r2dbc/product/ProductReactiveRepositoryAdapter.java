@@ -18,10 +18,7 @@ public class ProductReactiveRepositoryAdapter extends ReactiveAdapterOperations<
         ProductReactiveRepository
 > implements ProductRepository {
 
-
-
             private final DatabaseClient databaseClient;
-
 
             public ProductReactiveRepositoryAdapter(ProductReactiveRepository repository, ObjectMapper mapper, DatabaseClient databaseClient) {
                 /**
@@ -46,6 +43,7 @@ public class ProductReactiveRepositoryAdapter extends ReactiveAdapterOperations<
                 return repository.deleteByBranchIdAndId(branchId,productId);
             }
 
+            // Por orden , mejor usar @Query en el repository
             @Override
             public Flux<ProductTopStock> findTopStockForBranchByFranchiseId(Long franchiseId) {
 
